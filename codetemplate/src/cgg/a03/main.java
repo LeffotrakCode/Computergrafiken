@@ -20,7 +20,7 @@ public class main {
          image.setPixel(x, y, raytracer.getColor(new Vec2(x, y)));
 
         // Write the image to disk.
-        image.writePNG("a03-Test");
+        image.writePNG("a03-KP");
     }
     
 }

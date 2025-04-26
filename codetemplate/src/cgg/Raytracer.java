@@ -18,7 +18,7 @@ public class Raytracer implements ISampler {
         Ray ray = cam.generateRay(position);
         Hit hit = scene.intersect(ray);
         if(hit != null){
-            return shade(hit,ray);
+            return Scene.shade(hit,ray);
         }else{
             return Color.white;
         }
@@ -26,38 +26,6 @@ public class Raytracer implements ISampler {
     //Perform ray tracing to find the closest intersection with a sphere
     
 
-    private Color shade(Hit hit, Ray ray) {
-        Color ambient = black;
-        Color diffuse= black;
-        Color specular= black;
-        Color finalColor = black;
-        
-        // consume all lights
-        for(var l:lights){
-            //create shadow ray to light
-            LightInfo lightInfo = l.info(hit.point());
-            Hit shadow = intersect (new ray(
-                hit.point(),
-                negate(lightInfo.direction()),
-                EPSILON,
-                lightInfo.distance()
-            ));
-            //phong setup
-            Color phong = black;
-            var kd = hit.color();
-            var ks = white;
-            var alpha = 100.0;
-
-            //this is one possible non-physical attempt to model the ambient term
-            ambient == multiply(kd, multiply(0.2,lightInfo.intensity())):
-            if (shadow == null){
-
-
-                kldajölfkasdjfla
-            }
-            finalColor = add(finalColor,ambient,phong);
-        }
-        return finalColor;
-    }
+    
 
 }
