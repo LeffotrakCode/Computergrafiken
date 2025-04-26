@@ -10,6 +10,7 @@ public class main {
         Scene scene= new Scene();
         Camera cam = new Camera(Math.PI * 0.5, 500, 500);
         scene.addSphere(new Sphere(new Vec3(0, 0, -4), 1));
+        
 
         Raytracer raytracer = new Raytracer(cam,scene);
 

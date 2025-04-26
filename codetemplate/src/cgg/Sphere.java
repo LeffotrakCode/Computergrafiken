@@ -42,6 +42,6 @@ public record Sphere(Vec3 position, double radius) {
         Vec3 normal = Functions.normalize(Functions.subtract(point,position));
             
         //Sphere color change
-        return new Hit(t, point, normal,white);
+        return new Hit(t, point, normal,red);
     }
 }
