@@ -1,6 +1,5 @@
 package cgg;
 
-import static tools.Functions.EPSILON;
 
 import tools.*;
 
@@ -18,14 +17,9 @@ public class Raytracer implements ISampler {
         Ray ray = cam.generateRay(position);
         Hit hit = scene.intersect(ray);
         if(hit != null){
-            return Scene.shade(hit,ray);
+            return scene.shade(hit,ray);
         }else{
             return Color.white;
         }
     }
-    //Perform ray tracing to find the closest intersection with a sphere
-    
-
-    
-
 }
