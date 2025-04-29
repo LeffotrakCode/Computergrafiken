@@ -38,7 +38,7 @@ public class Scene {
         for (ILight l : lights) {
             LightInfo lightInfo = l.info(hit.x());
     
-            // Schattenstrahl in Richtung Licht
+            // Shadow ray towards the light
             Ray shadowRay = new Ray(
                 hit.x(),
                 lightInfo.direction(),
@@ -52,31 +52,31 @@ public class Scene {
             Color specular = Color.black;
     
             if (shadowHit == null) {
-                // Diffusanteil
+                // Diffuse component
                 double nDotL = Math.max(0, Functions.dot(hit.n(), lightInfo.direction()));
                 diffuse = Functions.multiply(hit.c(), Functions.multiply(nDotL, lightInfo.intensity()));
     
-                // Richtung zur Kamera
+                // Direction to the camera
                 Vec3 v = Functions.normalize(Functions.negate(ray.dir()));
     
-                // Licht kommt aus -lightDir
+                // Light comes from -lightDir
                 Vec3 lightVec = Functions.negate(lightInfo.direction());
                 Vec3 n = hit.n();
     
-                // Reflexionsrichtung r = l - 2*(l·n)*n
+                // Reflection direction r = l - 2*(l·n)*n
                 Vec3 r = Functions.subtract(
                     lightVec,
                     Functions.multiply(2 * Functions.dot(lightVec, n), n)
                 );
                 r = Functions.normalize(r);
     
-                // Spekularanteil
+                // Specular component
                 double rDotV = Math.max(0, Functions.dot(r, v));
                 double alpha = 100.0;
                 Color ks = Color.white;
                 specular = Functions.multiply(ks, Functions.multiply(Math.pow(rDotV, alpha), lightInfo.intensity()));
             }
-    
+            //Phong
             finalColor = Functions.add(finalColor, ambient, diffuse, specular);
         }
     
