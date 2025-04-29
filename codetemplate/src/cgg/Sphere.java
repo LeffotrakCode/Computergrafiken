@@ -1,10 +1,8 @@
 package cgg;
 
-import static tools.Color.*;
-
 import tools.*;
 
-public record Sphere(Vec3 position, double radius) {
+public record Sphere(Vec3 position, double radius, Color color) {
 
     public Hit intersect(Ray ray) {
         Vec3 o = ray.pos();
@@ -42,6 +40,6 @@ public record Sphere(Vec3 position, double radius) {
         Vec3 normal = Functions.normalize(Functions.subtract(point,position));
             
         //Sphere color change
-        return new Hit(t, point, normal,red);
+        return new Hit(t, point, normal,color);
     }
 }
