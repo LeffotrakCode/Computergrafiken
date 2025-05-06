@@ -2,6 +2,7 @@ package cgg.a04;
 
 import cgg.*;
 import tools.*;
+import textures.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,21 +20,13 @@ public class Main {
             new Vec3(0, 0, -3),
             1,
             new TexturedPhongMaterial(
-                new ImageTexture("textures/earth.jpg"),
+                new ImageTexture("textures/earth.png"),
                 Color.white,
                 100
             )
         ));
 
-        scene.addSphere(new Sphere(
-            new Vec3(2, 0, -4),
-            1,
-            new TexturedPhongMaterial(
-                new ImageTexture("textures/marble.jpg"),
-                Color.white,
-                100
-            )
-        ));
+
 
         // Hintergrundebene
         scene.addSphere(new Sphere(
@@ -45,13 +38,12 @@ public class Main {
         Raytracer raytracer = new Raytracer(cam, scene);
         Image image = new Image(width, height);
 
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                Vec2 pixel = new Vec2(x, y);
-                image.setPixel(x, y, raytracer.getColor(pixel));
-            }
-        }
+        
+        for (int x = 0; x != width; x++)
+        for (int y = 0; y != height; y++)
+         image.setPixel(x, y, raytracer.getColor(new Vec2(x, y)));
 
-        image.writePNG("a04-textured-phong");
+        // Write the image to disk.
+        image.writePNG("a04-phong");
     }
 }

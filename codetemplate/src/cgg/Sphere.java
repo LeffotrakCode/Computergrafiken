@@ -1,7 +1,6 @@
 package cgg;
 
 import tools.*;
-//TODO - Umbau auf Nutzung von IMaterial-Interface
 public record Sphere(Vec3 position, double radius, IMaterial material) {
 
     public Hit intersect(Ray ray) {
@@ -37,7 +36,7 @@ public record Sphere(Vec3 position, double radius, IMaterial material) {
         Vec3 point = ray.pointAt(t);
         Vec3 normal = Functions.normalize(Functions.subtract(point,position));
 
-        //TODO calculate spherical texcoords
+       
        //Könnte nicht Richtig sein.
        Vec3 p = Functions.subtract(point, position); // Punkt relativ zur Kugelmitte
        double u = 0.5 + Math.atan2(p.z(), p.x()) / (2 * Math.PI);
