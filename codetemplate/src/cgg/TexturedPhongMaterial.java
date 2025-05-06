@@ -1,6 +1,9 @@
 package cgg;
 
-public record TexturedPhonMaterial(ISampler diffuse, Color specular, double shininess) implements IMaterial {
+import tools.Color;
+import tools.ISampler;
+
+public record TexturedPhongMaterial(ISampler diffuse, Color specular, double shininess) implements IMaterial {
     @Override
     public Color getDiffuse(Hit hit) {
         //TODO

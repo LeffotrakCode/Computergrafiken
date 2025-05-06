@@ -1,7 +1,7 @@
 package cgg;
 
 import tools.*;
-//TODO - Umbau auf Nutzung von Imaterial-Interface
+//TODO - Umbau auf Nutzung von IMaterial-Interface
 public record Sphere(Vec3 position, double radius, IMaterial material) {
 
     public Hit intersect(Ray ray) {
