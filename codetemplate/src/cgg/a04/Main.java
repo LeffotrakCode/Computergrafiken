@@ -2,7 +2,6 @@ package cgg.a04;
 
 import cgg.*;
 import tools.*;
-import textures.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,27 +11,53 @@ public class Main {
         Scene scene = new Scene();
         Camera cam = new Camera(Math.PI * 0.5, width, height);
 
-        // Lichtquellen
-        scene.addLight(new DirectionalLight(new Vec3(1, -1, -1), new Color(1, 1, 1)));
-
-        // Texturierte Kugeln
+        // Light
+        scene.addLight(new PointLight(new Vec3(-10, 10, 0), new Color(1, 1, 1)));
+        
+        
+        //Sphere Collection
+        //Cherry
         scene.addSphere(new Sphere(
-            new Vec3(0, 0, -3),
+            new Vec3(0, 0, 4),
             1,
             new TexturedPhongMaterial(
-                new ImageTexture("textures/earth.png"),
+                new ImageTexture("codetemplate/src/textures/cherry.jpg"),
                 Color.white,
                 100
+            )
+        ));
+        //Ice
+        scene.addSphere(new Sphere(
+            new Vec3(3, 0, 4),
+            1,
+            new TexturedPhongMaterial(
+                new ImageTexture("codetemplate/src/textures/ice.jpg"),
+                Color.cyan,
+                100
+            )
+        ));
+         //Moon
+         scene.addSphere(new Sphere(
+            new Vec3(-10, 0, 10),
+            3,
+            new TexturedPhongMaterial(
+                new ImageTexture("codetemplate/src/textures/moon.jpg"),
+                Color.black,
+                0.1
             )
         ));
 
 
 
-        // Hintergrundebene
+        // Background Sphere
         scene.addSphere(new Sphere(
             new Vec3(0, -10004, -4),
             10000,
-            new PhongMaterial(new Color(0.5, 0.5, 0.5), Color.white, 100)
+            new TexturedPhongMaterial(
+                new ImageTexture("codetemplate/src/textures/grass.jpg"),
+                Color.white,
+                10
+            )
         ));
 
         Raytracer raytracer = new Raytracer(cam, scene);
@@ -44,6 +69,6 @@ public class Main {
          image.setPixel(x, y, raytracer.getColor(new Vec2(x, y)));
 
         // Write the image to disk.
-        image.writePNG("a04-phong");
+        image.writePNG("a04-textures");
     }
 }

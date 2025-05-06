@@ -19,7 +19,7 @@ public class Raytracer implements ISampler {
         if(hit != null){
             return scene.shade(hit,ray);
         }else{
-            return Color.white;
+            return Color.black;
         }
     }
 }

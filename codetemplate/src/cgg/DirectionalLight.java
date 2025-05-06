@@ -10,9 +10,9 @@ public record DirectionalLight(Vec3 direction, Color intensity) implements ILigh
         double simulatedDistance = 1000000.0;
         return new LightInfo(
             
-            Functions.negate(direction), // Richtung vom Punkt zur Lichtquelle
+            Functions.negate(direction), 
             intensity,simulatedDistance
-                 // Unendliche Entfernung
+                
         );
 }
 }
