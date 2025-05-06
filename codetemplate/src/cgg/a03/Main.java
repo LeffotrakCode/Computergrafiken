@@ -1,3 +1,4 @@
+/**
 package cgg.a03;
 import static tools.Color.blue;
 import static tools.Color.green;
@@ -39,3 +40,4 @@ public class Main {
     }
     
 }
+*/

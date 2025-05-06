@@ -1,8 +1,8 @@
 package cgg;
 
 import tools.*;
-
-public record Sphere(Vec3 position, double radius, Color color) {
+//TODO - Umbau auf Nutzung von Imaterial-Interface
+public record Sphere(Vec3 position, double radius, IMaterial material) {
 
     public Hit intersect(Ray ray) {
         Vec3 o = ray.pos();
@@ -36,8 +36,13 @@ public record Sphere(Vec3 position, double radius, Color color) {
         
         Vec3 point = ray.pointAt(t);
         Vec3 normal = Functions.normalize(Functions.subtract(point,position));
+
+        //TODO calculate spherical texcoords
+        //TODO
+        //TODO
+        //LOOK Implementierung Texturkoordinaten Kugel
         
-        return new Hit(t, point, normal, color);
+        return new Hit(t, point, normal, vec2(u,v), material);
         
     }
 }

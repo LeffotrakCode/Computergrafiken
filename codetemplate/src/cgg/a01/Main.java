@@ -1,4 +1,4 @@
-
+/** 
 package cgg.a01;
 
 import cgg.Image;
@@ -38,3 +38,4 @@ public class Main {
     image.writePNG("a01-colordiscs");
   }
 }
+*/

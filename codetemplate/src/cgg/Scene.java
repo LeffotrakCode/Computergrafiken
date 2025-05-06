@@ -33,6 +33,16 @@ public class Scene {
     }
 
     public Color shade(Hit hit, Ray ray) {
+
+        /**
+         * TODO
+         * Irgendwo in Ihrer shade()- Methode
+         * //phong setup
+         * Color phong = black;
+         * var kd = hit.color();
+         * var ks = white;
+         * var alpha = 100.0;
+         */
         Color finalColor = Color.black;
     
         for (ILight l : lights) {
