@@ -6,7 +6,8 @@ import tools.ISampler;
 public record TexturedPhongMaterial(ISampler diffuse, Color specular, double shininess) implements IMaterial {
     @Override
     public Color getDiffuse(Hit hit) {
-        //TODO
+        //TODO - Könnte noch nicht Richtig sein.
+        return diffuse.getColor(hit.uv());
     }
     @Override
     public Color getSpecular(Hit hit){

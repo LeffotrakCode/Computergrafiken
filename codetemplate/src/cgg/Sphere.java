@@ -38,11 +38,11 @@ public record Sphere(Vec3 position, double radius, IMaterial material) {
         Vec3 normal = Functions.normalize(Functions.subtract(point,position));
 
         //TODO calculate spherical texcoords
-        //TODO
-        //TODO
-        //LOOK Implementierung Texturkoordinaten Kugel
-        
-        return new Hit(t, point, normal, vec2(u,v), material);
+       //Könnte nicht Richtig sein.
+       Vec3 p = Functions.subtract(point, position); // Punkt relativ zur Kugelmitte
+       double u = 0.5 + Math.atan2(p.z(), p.x()) / (2 * Math.PI);
+       double v = 0.5 - Math.asin(p.y() / radius) / Math.PI;
+        return new Hit(t, point, normal, new Vec2(u,v), material);
         
     }
 }

@@ -5,7 +5,8 @@ import tools.Color;
 public record PhongMaterial(Color diffuse, Color specular, double shininess) implements IMaterial {
     @Override
     public Color getDiffuse(Hit hit){
-
+        //Könnte nicht Richtig sein.
+        return diffuse;
     }
     @Override
     public Color getSpecular(Hit hit){

@@ -34,17 +34,12 @@ public class Scene {
 
     public Color shade(Hit hit, Ray ray) {
 
-        /**
-         * TODO
-         * Irgendwo in Ihrer shade()- Methode
-         * //phong setup
-         * Color phong = black;
-         * var kd = hit.color();
-         * var ks = white;
-         * var alpha = 100.0;
-         */
+    //Noch nicht geprüft
         Color finalColor = Color.black;
-    
+        var kd = hit.material().getDiffuse(hit);
+        var ks = hit.material().getSpecular(hit);
+        var alpha = hit.material().getShininess(hit);
+
         for (ILight l : lights) {
             LightInfo lightInfo = l.info(hit.x());
     
@@ -57,14 +52,14 @@ public class Scene {
             );
             Hit shadowHit = intersect(shadowRay);
     
-            Color ambient = Functions.multiply(hit.c(), Functions.multiply(0.2, lightInfo.intensity()));
+            Color ambient = Functions.multiply(kd, Functions.multiply(0.2, lightInfo.intensity()));
             Color diffuse = Color.black;
             Color specular = Color.black;
     
             if (shadowHit == null) {
                 // Diffuse component
                 double nDotL = Math.max(0, Functions.dot(hit.n(), lightInfo.direction()));
-                diffuse = Functions.multiply(hit.c(), Functions.multiply(nDotL, lightInfo.intensity()));
+                diffuse = Functions.multiply(kd, Functions.multiply(nDotL, lightInfo.intensity()));
     
                 // Direction to the camera
                 Vec3 v = Functions.normalize(Functions.negate(ray.dir()));
@@ -82,8 +77,7 @@ public class Scene {
     
                 // Specular component
                 double rDotV = Math.max(0, Functions.dot(r, v));
-                double alpha = 100.0;
-                Color ks = Color.white;
+                
                 specular = Functions.multiply(ks, Functions.multiply(Math.pow(rDotV, alpha), lightInfo.intensity()));
             }
             //Phong

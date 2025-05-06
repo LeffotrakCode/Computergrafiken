@@ -1,6 +1,6 @@
 package cgg;
-import tools.Color;
-import tools.Vec3;
+
+import tools.*;
 
 public record Hit(
     double  t,  //Ray parameter
