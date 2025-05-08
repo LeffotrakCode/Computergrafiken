@@ -58,6 +58,12 @@ public class ImageTexture implements ISampler {
     double[] pixelBuffer = new double[4];
     image.getRaster().getPixel(x, y, pixelBuffer);
     Color color = color(pixelBuffer[0], pixelBuffer[1], pixelBuffer[2]);
-    return divide(color, componentScale);
+    Color linearColor = divide(color, componentScale);
+
+    return new Color(
+    Math.pow(linearColor.r(), 2.2),
+    Math.pow(linearColor.g(), 2.2),
+    Math.pow(linearColor.b(), 2.2)
+    );
   }
 }
