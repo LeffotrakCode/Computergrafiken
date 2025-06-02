@@ -1,3 +1,4 @@
+/**
 package cgg.a04;
 
 import cgg.*;
@@ -72,3 +73,4 @@ public class Main {
         image.writePNG("a04-textures");
     }
 }
+*/

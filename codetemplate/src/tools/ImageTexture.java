@@ -49,12 +49,12 @@ public class ImageTexture implements ISampler {
   }
 
   public Color getColor(Vec2 at) {
-    // if (u < 0 || u > 1 || v < 0 || v > 1)
-    // return black;
-
+  
+    // Wrap UV coordinates to stay within texture bounds [0,1]
     int x = (int) ((at.u() - Math.floor(at.u())) * width);
     int y = (int) ((at.v() - Math.floor(at.v())) * height);
 
+    // Apply gamma correction to normalized color
     double[] pixelBuffer = new double[4];
     image.getRaster().getPixel(x, y, pixelBuffer);
     Color color = color(pixelBuffer[0], pixelBuffer[1], pixelBuffer[2]);

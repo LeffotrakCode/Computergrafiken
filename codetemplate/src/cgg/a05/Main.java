@@ -11,10 +11,10 @@ public class Main {
         Scene scene = new Scene();
         Camera cam = new Camera(Math.PI * 0.5, width, height);
 
-        // Lichtquellen
+        // Light sources
         scene.addLight(new PointLight(new Vec3(-10, 10, 0), new Color(1, 1, 1)));
 
-        // Kugeln mit Texturen
+        // Spheres with textures
         scene.addSphere(new Sphere(
             new Vec3(0, 0, 4),
             1,
@@ -30,7 +30,7 @@ public class Main {
             1,
             new TexturedPhongMaterial(
                 new ImageTexture("codetemplate/src/textures/ice.jpg"),
-                Color.cyan,
+                Color.white,
                 100
             )
         ));
@@ -40,12 +40,12 @@ public class Main {
             3,
             new TexturedPhongMaterial(
                 new ImageTexture("codetemplate/src/textures/moon.jpg"),
-                Color.black,
-                0.1
+                Color.white,
+                10
             )
         ));
 
-        // Hintergrundboden
+        // Sphere for background floor
         scene.addSphere(new Sphere(
             new Vec3(0, -10004, -4),
             10000,
@@ -56,9 +56,9 @@ public class Main {
             )
         ));
 
-        // Supersampling konfigurieren
+        // Configure supersampling
         ISampler pixelSampler = (Vec2 p) -> new Raytracer(cam, scene).getColor(p);
-        ISampler superSampler = new SuperSampler(pixelSampler, 25, "grid");
+        ISampler superSampler = new SuperSampler(pixelSampler, 64, "stratified");
 
         Image image = new Image(width, height);
 

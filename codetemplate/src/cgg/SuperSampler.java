@@ -25,28 +25,31 @@ public record SuperSampler(ISampler sampler, int samples, String mode) implement
 
                 switch (mode.toLowerCase()) {
                     case "grid":
+                        // Uniform grid sampling
                         u = (i + 0.5) / n;
                         v = (j + 0.5) / n;
                         break;
                     case "random":
+                        // Random sampling
                         u = rand.nextDouble();
                         v = rand.nextDouble();
                         break;
                     case "stratified":
+                        // Stratified random sampling
                         u = (i + rand.nextDouble()) / n;
                         v = (j + rand.nextDouble()) / n;
                         break;
                     default:
                         throw new IllegalArgumentException("Unknown sampling mode: " + mode);
                 }
-
-                Vec2 offset = new Vec2(u - 0.5, v - 0.5); // zentriert
+                // Offset to center the sample within the pixel
+                Vec2 offset = new Vec2(u - 0.5, v - 0.5);
                 sum = Functions.add(sum, sampler.getColor(Functions.add(pos,offset)));
 
 
             }
         }
-
+        // Return average color
         return Functions.multiply(sum, 1.0 / samples);
 
 
