@@ -9,6 +9,7 @@ public class Main {
         int height = 1080;
 
         // Camera transform:
+         // Camera transform:
         Mat44 camTransform = Mat44.translation(5, 0, -5)
                              .multiply(Mat44.rotationY(Math.toRadians(20))); // Rotate 20 degrees
 
