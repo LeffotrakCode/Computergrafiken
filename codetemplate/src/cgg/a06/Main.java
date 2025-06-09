@@ -52,12 +52,13 @@ public class Main {
 
         // Add light source
         scene.addLight(new PointLight(new Vec3(-10, 10, 0), new Color(1, 1, 1)));
-
+        
+        Image image = new Image(width, height);
         // Sampler
-        ISampler pixelSampler = (Vec2 p) -> new Raytracer(cam, scene).getColor(p);
+        ISampler pixelSampler = (Vec2 p) -> new Raytracer(cam, scene, image).getColor(p);
         ISampler superSampler = new SuperSampler(pixelSampler, 64, "stratified");
 
-        Image image = new Image(width, height);
+       
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -65,6 +66,6 @@ public class Main {
             }
         }
 
-        image.writePNG("a06-transforms");
+        image.writePNG("test-transforms");
     }
 }
