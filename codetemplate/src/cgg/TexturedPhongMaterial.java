@@ -16,5 +16,13 @@ public record TexturedPhongMaterial(ISampler diffuse, Color specular, double shi
     public double getShininess(Hit hit){
         return shininess;
     }
+    @Override
+    public Color getEmission(Hit hit) {
+        return Color.black;
+    }
+    @Override
+    public Ray getSecondaryRay(Hit hit) {
+       return  null;
+    }
     
 }

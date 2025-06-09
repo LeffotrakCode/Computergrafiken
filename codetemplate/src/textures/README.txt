@@ -7,3 +7,5 @@ Moon:
 https://picjumbo.com/moon-surface-seamless-texture/
 Grass:
 https://freeartbackgrounds.com/?435,green-grass-texture
+Sky:
+https://www.pexels.com/search/sky%20background/

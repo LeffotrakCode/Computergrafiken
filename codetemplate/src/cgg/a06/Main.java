@@ -1,4 +1,4 @@
-package cgg.a06;
+/**package cgg.a06;
 
 import cgg.*;
 import tools.*;
@@ -71,3 +71,4 @@ public class Main {
         image.writePNG("test-transforms");
     }
 }
+    */

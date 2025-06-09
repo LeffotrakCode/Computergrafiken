@@ -1,7 +1,6 @@
 package cgg;
 
 import java.util.ArrayList;
-import cgg.ILight.LightInfo;
 import tools.*;
 
 public class Scene {
@@ -24,49 +23,38 @@ public class Scene {
         return world.intersect(ray);
     }
 
+    // Public shading method used in main()
     public Color shade(Hit hit, Ray ray) {
-    Color ambient = new Color(0.03, 0.03, 0.03);
-    Color diffuse = Color.black;
-    Color specular = Color.black;
-    Color finalColor = Color.black;
-
-    for (ILight l : lights) {
-        LightInfo lightInfo = l.info(hit.x());
-        Ray shadowRay = new Ray(hit.x(), lightInfo.direction(), Functions.EPSILON, lightInfo.distance());
-        Hit shadowHit = intersect(shadowRay);
-
-        var kd = hit.material().getDiffuse(hit);
-        var ks = hit.material().getSpecular(hit);
-        var alpha = hit.material().getShininess(hit);
-
-        ambient = Functions.multiply(kd, Functions.multiply(0.01, lightInfo.intensity()));
-
-        if (shadowHit == null) {
-            double nDotL = Math.max(0, Functions.dot(hit.n(), lightInfo.direction()));
-            diffuse = Functions.multiply(kd, Functions.multiply(nDotL, lightInfo.intensity()));
-
-            Vec3 v = Functions.normalize(Functions.negate(ray.dir()));
-            Vec3 lightVec = Functions.negate(lightInfo.direction());
-            Vec3 n = hit.n();
-
-            Vec3 r = Functions.subtract(
-                lightVec,
-                Functions.multiply(2 * Functions.dot(lightVec, n), n)
-            );
-            r = Functions.normalize(r);
-
-            double rDotV = Math.max(0, Functions.dot(r, v));
-            specular = Functions.multiply(ks, Functions.multiply(Math.pow(rDotV, alpha), lightInfo.intensity()));
-        }
-
-        Color phong = Functions.add(diffuse, specular);
-        finalColor = Functions.add(finalColor, phong);
+        return pathtrace(ray, 6); // default depth = 6
     }
 
-    // Ambient wird bisher nicht addiert, kann aber noch hinzugefügt werden:
-    finalColor = Functions.add(finalColor, ambient);
+    // Path tracing recursive method
+    public Color pathtrace(Ray ray, int depth) {
+        if (ray == null || depth <= 0)
+            return Color.black;
 
-    return finalColor;
-}
+        Hit hit = intersect(ray);
+        if (hit == null)
+            return getBackground(ray.dir()); // Himmel/Hintergrundfarbe
 
+        IMaterial mat = hit.material();
+
+        Color emission = mat.getEmission(hit); // z.B. Lichtquelle
+        Ray secondary = mat.getSecondaryRay(hit);
+
+        if (secondary == null)
+            return emission; // Kein Sekundärstrahl
+
+        Color indirect = pathtrace(secondary, depth - 1);
+
+        return Functions.add(emission, indirect);
+    }
+
+    // Simpler Himmel: oben blau, unten schwarz
+    private Color getBackground(Vec3 dir) {
+        double t = 0.5 * (dir.y() + 1.0);
+        Color blackScaled = Functions.multiply(1 - t, Color.black);
+        Color blueScaled = Functions.multiply(t, new Color(0.5, 0.7, 1.0));
+        return Functions.add(blackScaled, blueScaled);
+    }
 }

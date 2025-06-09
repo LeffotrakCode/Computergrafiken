@@ -7,5 +7,6 @@ public record Hit(
     Vec3  x,    //Position
     Vec3  n,    //The normal vector at the hit point is used for shading and lighting
     Vec2 uv,
-    IMaterial material
+    IMaterial material,
+    Vec3 incident
 ) {}

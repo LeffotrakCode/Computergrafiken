@@ -46,7 +46,7 @@ public final class Group implements IShape {
         Vec3 worldPos = transformPoint(closest.x(), transform);
         Vec3 worldNormal = transformNormal(closest.n(), transposedInverse);
         worldNormal =Functions.normalize(worldNormal);
-        return new Hit(closest.t(), worldPos, worldNormal, closest.uv(), closest.material());
+        return new Hit(closest.t(), worldPos, worldNormal, closest.uv(), closest.material(),closest.incident());
     }
 
    private Vec3 transformPoint(Vec3 p, Mat44 m) {

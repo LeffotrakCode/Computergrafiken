@@ -40,7 +40,6 @@ public record Sphere(Vec3 position, double radius, IMaterial material) implement
        Vec3 p = Functions.subtract(point, position); 
        double u = 0.5 + Math.atan2(p.z(), p.x()) / (2 * Math.PI);
        double v = 0.5 - Math.asin(p.y() / radius) / Math.PI;
-        return new Hit(t, point, normal, new Vec2(u,v), material);
-        
+        return new Hit(t, point, normal, new Vec2(u,v), material,c);
     }
 }
