@@ -1,4 +1,4 @@
-package cgg.a05;
+/**package cgg.a05;
 
 import cgg.*;
 import tools.*;
@@ -71,3 +71,4 @@ public class Main {
         image.writePNG("a05-corrected");
     }
 }
+*/

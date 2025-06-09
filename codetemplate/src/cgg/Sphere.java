@@ -1,7 +1,7 @@
 package cgg;
 
 import tools.*;
-public record Sphere(Vec3 position, double radius, IMaterial material) {
+public record Sphere(Vec3 position, double radius, IMaterial material) implements IShape {
 
     public Hit intersect(Ray ray) {
         Vec3 o = ray.pos();
