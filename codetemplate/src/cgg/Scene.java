@@ -1,18 +1,18 @@
 package cgg;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import cgg.ILight.LightInfo;
 import tools.*;
 
 public class Scene {
-    private final Group world;
-    private final ArrayList<ILight> lights = new ArrayList<>();
+    private IShape root;
+    private List<ILight> lights;
 
-    public Scene(Group world) {
-        this.world = world;
-    }
-
-    public void addShape(IShape s) {
-        world.add(s);
+    public Scene(IShape root) {
+        this.root = root;
+        this.lights = new ArrayList<>();
     }
 
     public void addLight(ILight light) {
@@ -20,41 +20,52 @@ public class Scene {
     }
 
     public Hit intersect(Ray ray) {
-        return world.intersect(ray);
+        return root.intersect(ray);
     }
 
-    // Public shading method used in main()
-    public Color shade(Hit hit, Ray ray) {
-        return pathtrace(ray, 6); // default depth = 6
+    public Color getBackground(Vec3 dir) {
+        return new Color(0.2, 0.3, 0.5); // grau-blauer Himmel
     }
 
-    // Path tracing recursive method
     public Color pathtrace(Ray ray, int depth) {
-        if (ray == null || depth <= 0)
-            return Color.black;
+        if (ray == null || depth <= 0) return Color.black;
 
         Hit hit = intersect(ray);
-        if (hit == null)
-            return getBackground(ray.dir()); // Himmel/Hintergrundfarbe
+        if (hit == null) return getBackground(ray.dir());
 
         IMaterial mat = hit.material();
+        Color emission = mat.getEmission(hit);
+        Color directLight = Color.black;
 
-        Color emission = mat.getEmission(hit); // z.B. Lichtquelle
+        for (ILight light : lights) {
+            LightInfo lightInfo = light.info(hit.x());
+            Vec3 toLight = lightInfo.direction();
+            Ray shadowRay = new Ray(hit.x(), toLight);
+            Hit shadowHit = intersect(shadowRay);
+
+            boolean inShadow = shadowHit != null && shadowHit.t() < lightInfo.distance() - 1e-4;
+
+            if (!inShadow) {
+                double ndotl = Math.max(0, Functions.dot(hit.n(), toLight));
+                Color diffuse = Functions.multiply(ndotl, mat.getDiffuse(hit));
+
+                Vec3 viewDir = Functions.negate(ray.dir());
+                Vec3 reflectDir = Functions.reflect(Functions.negate(toLight), hit.n());
+                double spec = Math.pow(Math.max(0, Functions.dot(viewDir, reflectDir)), mat.getShininess(hit));
+                Color specular = Functions.multiply(spec, mat.getSpecular(hit));
+
+                Color total = Functions.add(diffuse, specular);
+                directLight = Functions.add(directLight, Functions.multiply(lightInfo.intensity(), total));
+            }
+        }
+
         Ray secondary = mat.getSecondaryRay(hit);
+        Color indirect = secondary != null ? pathtrace(secondary, depth - 1) : Color.black;
 
-        if (secondary == null)
-            return emission; // Kein Sekundärstrahl
-
-        Color indirect = pathtrace(secondary, depth - 1);
-
-        return Functions.add(emission, indirect);
+        return Functions.add(emission, Functions.add(directLight, indirect));
     }
 
-    // Simpler Himmel: oben blau, unten schwarz
-    private Color getBackground(Vec3 dir) {
-        double t = 0.5 * (dir.y() + 1.0);
-        Color blackScaled = Functions.multiply(1 - t, Color.black);
-        Color blueScaled = Functions.multiply(t, new Color(0.5, 0.7, 1.0));
-        return Functions.add(blackScaled, blueScaled);
+    public Color shade(Hit hit, Ray ray) {
+        return pathtrace(ray, 3); // max depth = 3
     }
 }

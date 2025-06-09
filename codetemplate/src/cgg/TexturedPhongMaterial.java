@@ -1,7 +1,9 @@
 package cgg;
 
 import tools.Color;
+import tools.Functions;
 import tools.ISampler;
+import tools.Vec3;
 
 public record TexturedPhongMaterial(ISampler diffuse, Color specular, double shininess) implements IMaterial {
     @Override
@@ -21,8 +23,21 @@ public record TexturedPhongMaterial(ISampler diffuse, Color specular, double shi
         return Color.black;
     }
     @Override
-    public Ray getSecondaryRay(Hit hit) {
-       return  null;
-    }
+public Ray getSecondaryRay(Hit hit) {
+    Vec3 n = hit.n();
+    Vec3 dir;
+    double x, y, z;
+
+    do {
+        x = 2 * Math.random() - 1;
+        y = 2 * Math.random() - 1;
+        z = 2 * Math.random() - 1;
+        dir = new Vec3(x, y, z);
+    } while (Functions.dot(dir, dir) >= 1 || Functions.dot(dir, n) <= 0);
+
+    dir = Functions.normalize(dir);
+    return new Ray(hit.x(), dir, Functions.EPSILON, Double.POSITIVE_INFINITY);
+}
+
     
 }

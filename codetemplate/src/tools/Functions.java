@@ -1191,4 +1191,9 @@ public record Ray(Vec3 pos,Vec3 dir, double tMin,double tMax) {
         double b = 2 - Math.abs(h * 6 - 4);
         return clamp(color(r, g, b));
     }
+
+    public static Vec3 reflect(Vec3 incident, Vec3 normal) {
+    return subtract(incident, multiply(2 * dot(incident, normal), normal));
+    }
+
 }
