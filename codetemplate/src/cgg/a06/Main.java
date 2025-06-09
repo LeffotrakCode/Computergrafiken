@@ -60,11 +60,12 @@ public class Main {
 
        
 
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                image.setPixel(x, y, superSampler.getColor(new Vec2(x, y)));
-            }
+      for (int x = 0; x < width; x++) {
+    for (int y = 0; y < height; y++) {
+        superSampler.getColor(new Vec2(x, y));
         }
+    }
+
 
         image.writePNG("test-transforms");
     }

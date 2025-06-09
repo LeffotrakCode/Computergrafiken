@@ -13,14 +13,21 @@ public class Raytracer implements ISampler {
         this.image = image;
     }
 
-    @Override
+   @Override
     public Color getColor(Vec2 position) {
         Ray ray = cam.generateRay(position);
         Hit hit = scene.intersect(ray);
-        if (hit != null) {
-            return scene.shade(hit, ray);
-        } else {
-            return Color.black;
+        Color color = (hit != null) ? scene.shade(hit, ray) : Color.black;
+
+        // x/y-Koordinaten aus Position (Vec2)
+        int x = (int) position.x();
+        int y = (int) position.y();
+
+        // Bild setzen
+        if (x >= 0 && x < image.width() && y >= 0 && y < image.height()) {
+            image.setPixel(x, y, color);
         }
+
+        return color;
     }
 }
