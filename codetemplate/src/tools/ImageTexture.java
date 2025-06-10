@@ -1,4 +1,3 @@
-
 package tools;
 
 import static tools.Functions.*;

@@ -5,39 +5,41 @@ import tools.Functions;
 import tools.Vec3;
 
 public record PhongMaterial(Color diffuse, Color specular, double shininess) implements IMaterial {
+    private static final double RAY_OFFSET = 1e-5;
+
     @Override
-    public Color getDiffuse(Hit hit){
+    public Color getDiffuse(Hit hit) {
         return diffuse;
     }
+
     @Override
-    public Color getSpecular(Hit hit){
+    public Color getSpecular(Hit hit) {
         return specular;
     }
+
     @Override
-    public double getShininess(Hit hit){
+    public double getShininess(Hit hit) {
         return shininess;
     }
+
     @Override
-    public Color getEmission(Hit hit){
+    public Color getEmission(Hit hit) {
         return Color.black;
     }
+
     @Override
     public Ray getSecondaryRay(Hit hit) {
-        Vec3 n = hit.n();
         Vec3 dir;
-        double x, y, z;
-
+        Vec3 n = hit.n();
         do {
-            x = 2 * Math.random() - 1;
-            y = 2 * Math.random() - 1;
-            z = 2 * Math.random() - 1;
-            dir = new Vec3(x, y, z);
-        } while (Functions.dot(dir, dir)
- >= 1 || Functions.dot(dir, n) <= 0);
-
+            dir = new Vec3(
+                2 * Math.random() - 1,
+                2 * Math.random() - 1,
+                2 * Math.random() - 1
+            );
+        } while (Functions.length(dir) > 1 || Functions.dot(dir, n) < 0);
         dir = Functions.normalize(dir);
-        return new Ray(hit.x(), dir, Functions.EPSILON, Double.POSITIVE_INFINITY);
+        Vec3 origin = Functions.add(hit.x(), Functions.multiply(RAY_OFFSET, n));
+        return new Ray(origin, dir);
     }
-
 }
-

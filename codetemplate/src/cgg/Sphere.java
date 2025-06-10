@@ -30,11 +30,14 @@ public record Sphere(Vec3 position, double radius, IMaterial material) implement
         Vec3 hitPoint = ray.pointAt(t);
         Vec3 normal = Functions.normalize(Functions.subtract(hitPoint, c));
 
-        // Sphärische UV-Koordinaten berechnen
+        
         Vec3 p = Functions.normalize(Functions.subtract(hitPoint, position));
         double u = 0.5 + Math.atan2(p.z(), p.x()) / (2 * Math.PI);
-        double v = 0.5 - Math.asin(p.y()) / Math.PI;
-        Vec2 uv = new Vec2(u, v);
+        double v = 0.5 - Math.asin(Math.max(-1, Math.min(1, p.y()))) / Math.PI;
+
+    u = u - Math.floor(u);
+    v = v - Math.floor(v);
+    Vec2 uv = new Vec2(u, v);
         
         return new Hit(t, hitPoint, normal, uv, material, ray.dir());
     }

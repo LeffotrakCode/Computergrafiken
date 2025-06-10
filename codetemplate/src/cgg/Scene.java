@@ -28,7 +28,7 @@ public class Scene {
     }
 
     public Color pathtrace(Ray ray, int depth) {
-        if (ray == null || depth <= 0) return Color.black;
+        if (ray == null || depth == 0) return Color.black;
 
         Hit hit = intersect(ray);
         if (hit == null) return getBackground(ray.dir());
@@ -66,6 +66,6 @@ public class Scene {
     }
 
     public Color shade(Hit hit, Ray ray) {
-        return pathtrace(ray, 3); // max depth = 3
+        return pathtrace(ray, 5); 
     }
 }
