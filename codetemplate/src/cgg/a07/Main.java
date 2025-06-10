@@ -22,18 +22,18 @@ public class Main {
                 Vec3 pos = new Vec3(x * 4, -2, z * 4);
                 IMaterial mat;
 
-                int index = (x + 1) * 3 + (z + 1); // Werte von 0 bis 8
+                int index = (x + 1) * 3 + (z + 1); 
 
                 if (index % 3 == 0) {
                     // PhongMaterial, feste rote Farbe
                     mat = new PhongMaterial(
-                            new Color(1.0, 0.2, 0.2), // Diffuse rot
+                            new Color(1.0, 0.0, 0.0), // Diffuse rot
                             Color.white,               // Specular weiß
-                            20                        // Shininess
+                            50                        // Shininess
                     );
                 } else if (index % 3 == 1) {
                     // Spiegelmaterial
-                    mat = new MirrorMaterial(Color.black, Color.white, 0, new Color(0, 0, 0));
+                    mat = new MirrorMaterial(Color.black, Color.black, 0, new Color(0, 0, 0));
                 } else {
                     // Texturiertes Material mit fixer Textur
                     mat = new TexturedPhongMaterial(
@@ -56,7 +56,7 @@ public class Main {
 
         // Szene und Licht hinzufügen
         Scene scene = new Scene(root);
-        scene.addLight(new PointLight(new Vec3(-10, 10, 0), new Color(1, 1, 1)));
+        scene.addLight(new PointLight(new Vec3(-50, 50, 0), new Color(1, 1, 1)));
 
         // Bild anlegen
         Image image = new Image(width, height);
@@ -72,7 +72,7 @@ public class Main {
         };
 
         // Supersampling mit 64 Samples (stratified)
-        ISampler superSampler = new SuperSampler(pixelSampler, 64, "stratified");
+        ISampler superSampler = new SuperSampler(pixelSampler, 64, "stratified" );
 
         // Render-Schleife
         for (int x = 0; x < width; x++) {
